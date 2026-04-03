@@ -19,18 +19,36 @@ def calculate_average(numbers):
     return avg
 
 
-def summarize_result(avg):
+def calculate_sum(numbers):
 
-    summary = f"The average value is {avg}"
+    total = sum(numbers)
+
+    print("Step 2: Calculated sum:", total)
+
+    return total
+
+
+def count_numbers(numbers):
+
+    count = len(numbers)
+
+    print("Step 2: Counted numbers:", count)
+
+    return count
+
+
+def summarize_result(result):
+
+    summary = f"The result of the operation is {result}"
 
     print("Step 3: Generated summary:", summary)
 
     return summary
 
 
-def planner_agent():
+def planner(query):
 
-    query = input("Enter your task: ")
+    print("\nPlanning task...\n")
 
     numbers = extract_numbers(query)
 
@@ -38,9 +56,36 @@ def planner_agent():
         print("No numbers found.")
         return
 
-    avg = calculate_average(numbers)
 
-    summarize_result(avg)
+    if "average" in query:
+
+        result = calculate_average(numbers)
+
+
+    elif "sum" in query:
+
+        result = calculate_sum(numbers)
+
+
+    elif "count" in query:
+
+        result = count_numbers(numbers)
+
+
+    else:
+
+        print("Could not determine operation.")
+        return
+
+
+    summarize_result(result)
+
+
+def planner_agent():
+
+    query = input("Enter your task: ").lower()
+
+    planner(query)
 
 
 planner_agent()

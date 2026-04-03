@@ -2,7 +2,21 @@ Multi-Step Planning Agent
 
 
 
-This agent solves problems using sequential reasoning steps.
+This agent performs multi-step reasoning using a planning workflow.
+
+
+
+Supported tasks:
+
+
+
+Average calculation
+
+Sum calculation
+
+Counting numbers
+
+Automatic summary generation
 
 
 
@@ -10,17 +24,21 @@ Workflow:
 
 
 
-User input
+User Input
 
-Extract numbers
+Task Planning
 
-Calculate average
+Extract Numbers
 
-Generate summary
+Select Operation
+
+Execute Operation
+
+Generate Summary
 
 
 
-Intermediate outputs are shown at each stage.
+This demonstrates a sequential reasoning-based AI agent pipeline.
 
 
 
@@ -30,7 +48,9 @@ Concepts learned:
 
 Task decomposition
 
+Planning-based execution
+
 Sequential reasoning
 
-Planning-based agent workflow
+Multi-step agent workflow
 
