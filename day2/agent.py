@@ -2,54 +2,62 @@ import re
 from tools import calculator, weather, summarizer
 
 
-def decide_tool(user_input):
+def detect_intent(query):
 
-    if "calculate" in user_input:
+    if "calculate" in query:
         return "calculator"
 
-    elif "weather" in user_input:
+    elif "weather" in query:
         return "weather"
 
-    elif "summarize" in user_input:
+    elif "summarize" in query:
         return "summarizer"
 
+    return "unknown"
+
+
+def execute_tool(intent, query):
+
+    print("\n[Agent Decision]: Selected tool →", intent)
+
+
+    if intent == "calculator":
+
+        expression = query.replace("calculate", "")
+
+        return calculator(expression)
+
+
+    elif intent == "weather":
+
+        city = input("Enter city name: ")
+
+        return weather(city)
+
+
+    elif intent == "summarizer":
+
+        text = input("Enter text to summarize: ")
+
+        return summarizer(text)
+
+
     else:
-        return None
+
+        return "No suitable tool found"
 
 
 def run_agent():
 
-    user_input = input("Enter command: ").lower()
+    query = input("Enter your request: ").lower()
 
-    tool = decide_tool(user_input)
+    print("\n[Agent]: Processing request...")
 
+    intent = detect_intent(query)
 
-    if tool == "calculator":
+    result = execute_tool(intent, query)
 
-        numbers = re.findall(r'\d+', user_input)
-
-        if len(numbers) >= 2:
-            result = calculator(int(numbers[0]), int(numbers[1]))
-            print("Result:", result)
-        else:
-            print("Please enter two numbers")
-
-
-    elif tool == "weather":
-
-        city = input("Enter city name: ")
-        print(weather(city))
-
-
-    elif tool == "summarizer":
-
-        text = input("Enter text to summarize: ")
-        print(summarizer(text))
-
-
-    else:
-
-        print("No matching tool found")
+    print("\n[Agent Output]:", result)
 
 
 run_agent()

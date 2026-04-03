@@ -2,7 +2,7 @@ LLM-Based Agent
 
 
 
-This agent uses a simulated LLM decision layer to select tools dynamically.
+This agent simulates an LLM reasoning layer to select tools dynamically.
 
 
 
@@ -12,35 +12,29 @@ Workflow:
 
 User Input
 
-LLM Decision Layer
+LLM Reasoning
 
 Tool Selection
 
-Execution
+Tool Execution
 
-Output
-
-
-
-Tools used:
+Response Generation
 
 
 
-Calculator
-
-Weather function
-
-Text summarizer
+The system prints reasoning logs to demonstrate how decisions are made.
 
 
 
-Concepts learned:
+Concepts implemented:
 
 
 
-Prompt-based reasoning
+Prompt-style reasoning
 
-Tool selection using AI
+Tool routing using AI logic
 
-LLM-style agent workflow
+Transparent decision pipeline
+
+Agent execution logging
 

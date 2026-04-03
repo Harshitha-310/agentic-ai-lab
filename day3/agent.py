@@ -2,63 +2,74 @@ import re
 from tools import calculator, weather, summarizer
 
 
-def llm_decision(query):
+def llm_reasoning(query):
 
-    """
-    Simulated LLM reasoning layer.
-    In real systems this would call OpenAI / LangChain.
-    """
+    print("\n[LLM]: Understanding user request...")
 
     if "calculate" in query:
-        return "calculator"
+        reasoning = "User wants arithmetic computation"
+        tool = "calculator"
 
     elif "weather" in query:
-        return "weather"
+        reasoning = "User wants weather information"
+        tool = "weather"
 
     elif "summarize" in query:
-        return "summarizer"
+        reasoning = "User wants text summarization"
+        tool = "summarizer"
 
     else:
-        return "unknown"
+        reasoning = "Intent unclear"
+        tool = "unknown"
+
+
+    print("[LLM Reasoning]:", reasoning)
+
+    return tool
+
+
+def execute_tool(tool, query):
+
+    print("[LLM Decision]: Selected tool →", tool)
+
+
+    if tool == "calculator":
+
+        numbers = re.findall(r'\d+', query)
+
+        if len(numbers) >= 2:
+
+            return calculator(int(numbers[0]), int(numbers[1]))
+
+        return "Need at least two numbers"
+
+
+    elif tool == "weather":
+
+        city = input("Enter city name: ")
+
+        return weather(city)
+
+
+    elif tool == "summarizer":
+
+        text = input("Enter text to summarize: ")
+
+        return summarizer(text)
+
+
+    return "LLM could not determine tool"
 
 
 def agent():
 
     query = input("Enter your request: ").lower()
 
-    print("\nAnalyzing query using LLM...")
+    selected_tool = llm_reasoning(query)
 
-    selected_tool = llm_decision(query)
+    result = execute_tool(selected_tool, query)
 
-    print("Selected tool:", selected_tool)
-
-
-    if selected_tool == "calculator":
-
-        numbers = re.findall(r'\d+', query)
-
-        if len(numbers) >= 2:
-            result = calculator(int(numbers[0]), int(numbers[1]))
-            print("Result:", result)
-        else:
-            print("Please provide two numbers")
-
-
-    elif selected_tool == "weather":
-
-        city = input("Enter city name: ")
-        print(weather(city))
-
-
-    elif selected_tool == "summarizer":
-
-        text = input("Enter text to summarize: ")
-        print(summarizer(text))
-
-
-    else:
-
-        print("LLM could not determine correct tool")
+    print("\n[Agent Response]:", result)
 
 
 agent()
