@@ -1,20 +1,29 @@
 import re
+import os
 from tools import calculator, weather, summarizer
 from openai import OpenAI
 
-client = OpenAI()
 
+# CONNECT TO GROQ API
+
+client = OpenAI(
+    api_key=os.getenv("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1"
+)
+
+
+# REAL LLM REASONING USING GROQ
 
 def real_llm_reasoning(query):
 
     try:
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="llama-3.3-70b-versatile",
             messages=[
                 {
                     "role": "system",
-                    "content": "Classify intent as calculator, weather, or summarizer"
+                    "content": "Classify intent as calculator, weather, or summarizer. Return only one word."
                 },
                 {
                     "role": "user",
@@ -29,12 +38,14 @@ def real_llm_reasoning(query):
 
         return intent
 
-    except:
+    except Exception as e:
 
-        print("[LLM Error]: API unavailable")
+        print("[LLM Error]: Groq API unavailable")
 
         return None
 
+
+# FALLBACK REASONING (SAFE BACKUP)
 
 def fallback_reasoning(query):
 
@@ -52,9 +63,11 @@ def fallback_reasoning(query):
     return "unknown"
 
 
+# TOOL SELECTION PIPELINE
+
 def select_tool(query):
 
-    print("\nAttempting real LLM reasoning...")
+    print("\nAttempting LLM reasoning using Groq...")
 
     tool = real_llm_reasoning(query)
 
@@ -66,6 +79,8 @@ def select_tool(query):
 
     return tool
 
+
+# TOOL EXECUTION
 
 def execute_tool(tool, query):
 
@@ -93,6 +108,8 @@ def execute_tool(tool, query):
 
     return "Tool not identified"
 
+
+# MAIN AGENT LOOP
 
 def agent():
 
